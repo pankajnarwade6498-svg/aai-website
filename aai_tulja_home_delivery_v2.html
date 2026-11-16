@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="mr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>आई तुळजाभवानी फ्लोअर मिल — दळण ऑर्डर</title>
+<style>
+:root{--green:#176b3a;--light:#f3f8f2;--ink:#17231b;--muted:#68746c;--line:#dce5dc}
+*{box-sizing:border-box}body{margin:0;background:var(--light);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans Devanagari",sans-serif}
+header{background:linear-gradient(135deg,#145b34,#23804c);color:#fff;padding:28px 18px 32px;border-radius:0 0 28px 28px}
+.wrap{max-width:760px;margin:auto;padding:0 14px}
+h1{font-size:26px;margin:0 0 8px}header p{margin:0;opacity:.92}
+main{padding:18px 0 36px}.panel,.product{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;margin:14px 0}
+h2{font-size:21px;margin:0 0 14px}.muted{color:var(--muted)}
+.notice{background:#fff8df;border:1px solid #efdf9b;border-radius:14px;padding:13px;margin:14px 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.product h3{margin:0 0 5px;font-size:18px}.rate{font-weight:750;color:var(--green);font-size:19px;margin:8px 0}
+label{display:block;font-weight:650;margin:14px 0 7px}
+input,select,textarea{width:100%;padding:13px;border:1px solid #cfd9d0;border-radius:12px;font:inherit;background:#fff;color:var(--ink)}
+button{border:0;border-radius:12px;background:var(--green);color:#fff;font:700 17px inherit;padding:14px 18px;width:100%;margin-top:14px}
+.total{font-size:20px;font-weight:800;display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:13px;margin-top:12px}
+.small{font-size:13px;color:var(--muted)}footer{text-align:center;color:var(--muted);padding:18px}
+@media(max-width:460px){.grid{grid-template-columns:1fr}h1{font-size:23px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>आई तुळजाभवानी फ्लोअर मिल</h1>
+<p>तुमचे धान्य दळून घरपोच देण्याची सेवा</p>
+<p style="margin-top:10px">नाशिक • CIDCO आणि परिसर</p>
+</div></header>
+<main class="wrap">
+<div class="notice">ही दळणाची ऑर्डर आहे. धान्य खरेदीची ऑर्डर नाही. धान्य कुठून आणायचे ते खाली निवडा.</div>
+
+<section class="panel">
+<h2>धान्य कसे मिळणार?</h2>
+<label><input type="radio" name="source" value="किराणा दुकानातून धान्य आणून दळून पोहोचवा" checked style="width:auto"> गिरणीसमोरील किराणा दुकानातून धान्य आणून दळून द्या व पोहोचवा</label>
+<label><input type="radio" name="source" value="ग्राहकाच्या घरून धान्य घेऊन दळून परत पोहोचवा" style="width:auto"> माझ्या घरून धान्य घेऊन दळून परत पोहोचवा</label>
+<p class="small">धान्य आणणे/नेणे याबाबतची माहिती ऑर्डरमध्ये जाईल.</p>
+</section>
+
+<section class="panel">
+<h2>दळणाचे दर</h2>
+<div class="grid">
+<div class="product"><h3>गहू / बाजरी / ज्वारी</h3><div class="rate">₹6 प्रति किलो</div><label>किलो</label><input type="number" min="0" step="0.5" value="0" data-rate="6" class="qty"></div>
+<div class="product"><h3>डाळी / तांदूळ / रवा</h3><div class="rate">₹8 प्रति किलो</div><label>किलो</label><input type="number" min="0" step="0.5" value="0" data-rate="8" class="qty"></div>
+<div class="product"><h3>नाचणी / मका</h3><div class="rate">₹10 प्रति किलो</div><label>किलो</label><input type="number" min="0" step="0.5" value="0" data-rate="10" class="qty"></div>
+</div>
+<p class="small">दळणाचे दर तुमच्या दुकानातील लावलेल्या दरपत्रकानुसार दाखवले आहेत.</p>
+</section>
+
+<section class="panel">
+<h2>डिलिव्हरीची माहिती</h2>
+<label>तुमचे नाव</label><input id="name" placeholder="पूर्ण नाव">
+<label>मोबाईल नंबर</label><input id="phone" inputmode="numeric" maxlength="10" placeholder="10 अंकी नंबर">
+<label>पूर्ण पत्ता</label><textarea id="address" rows="3" placeholder="घर क्रमांक, सोसायटी, परिसर, नाशिक"></textarea>
+<label>ऑर्डर कोणत्या गिरणीकडे द्यायची?</label>
+<select id="branch">
+<option>आई तुळजाभवानी फ्लोअर मिल — Old CIDCO</option>
+<option>लक्ष्मी फ्लोअर मिल — सावत नगर</option>
+<option>कुलस्वामी फ्लोअर मिल — भुजबळ फार्म</option>
+</select>
+<label>पेमेंट पद्धत</label>
+<select id="payment"><option>Cash on Delivery</option><option>UPI</option></select>
+<div class="total"><span>दळणाचे एकूण पैसे</span><span id="total">₹0</span></div>
+<p class="small">डिलिव्हरी शुल्क आणि अंतिम रक्कम गिरणीकडून ऑर्डर तपासल्यानंतर निश्चित केली जाईल.</p>
+<button type="button" onclick="sendOrder()">WhatsApp वर ऑर्डरची माहिती पाठवा</button>
+<p class="small">बटण दाबल्यावर WhatsApp उघडेल. योग्य गिरणीचा नंबर निवडून मेसेज पाठवा.</p>
+</section>
+</main>
+<footer>आई तुळजाभवानी फ्लोअर मिल • नाशिक</footer>
+<script>
+const qtys=[...document.querySelectorAll('.qty')];
+function total(){return qtys.reduce((s,x)=>s+(Math.max(0,Number(x.value)||0)*Number(x.dataset.rate)),0)}
+function refresh(){document.getElementById('total').textContent='₹'+total().toFixed(0)}
+qtys.forEach(x=>x.addEventListener('input',refresh));
+function sendOrder(){
+ const name=document.getElementById('name').value.trim(), phone=document.getElementById('phone').value.trim(), address=document.getElementById('address').value.trim();
+ if(!name||!/^[0-9]{10}$/.test(phone)||!address){alert('कृपया नाव, 10 अंकी मोबाईल नंबर आणि पूर्ण पत्ता भरा.');return}
+ const items=qtys.map((x,i)=>({label:['गहू/बाजरी/ज्वारी','डाळी/तांदूळ/रवा','नाचणी/मका'][i],kg:Number(x.value)||0,rate:Number(x.dataset.rate)})).filter(x=>x.kg>0);
+ if(!items.length){alert('कृपया दळणासाठी किमान एक पदार्थ आणि किलो निवडा.');return}
+ const source=document.querySelector('input[name="source"]:checked').value;
+ const lines=items.map(x=>`${x.label}: ${x.kg} किलो × ₹${x.rate} = ₹${x.kg*x.rate}`).join('\n');
+ const msg=`दळणाची ऑर्डर\nनाव: ${name}\nमोबाईल: ${phone}\nपत्ता: ${address}\nगिरणी: ${document.getElementById('branch').value}\nधान्य व्यवस्था: ${source}\n${lines}\nदळणाचे एकूण: ₹${total().toFixed(0)}\nपेमेंट: ${document.getElementById('payment').value}\nकृपया ऑर्डरची पुष्टी व डिलिव्हरी शुल्क कळवा.`;
+ location.href='https://wa.me/?text='+encodeURIComponent(msg);
+}
+refresh();
+</script>
+</body></html>
