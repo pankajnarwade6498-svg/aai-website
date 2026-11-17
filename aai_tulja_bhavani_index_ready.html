@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="mr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#6f2c17">
+<title>आई तुळजा भवानी फ्लोअर मिल</title>
+<style>
+:root{--brown:#6f2c17;--gold:#f4b942;--cream:#fff8ec;--ink:#29231f;--muted:#756b62;--green:#167a45}
+*{box-sizing:border-box}body{margin:0;background:#f6f1e8;color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans Devanagari",sans-serif}
+header{background:linear-gradient(135deg,#55200f,#8b3c1d);color:white;padding:24px 16px 20px;text-align:center}
+.logo{font-size:38px}h1{font-size:24px;margin:6px 0}header p{margin:5px 0;color:#ffe8c2}
+.wrap{max-width:760px;margin:auto;padding:14px}
+.tabs{display:flex;gap:8px;margin:12px 0}.tab{flex:1;padding:12px 8px;border:1px solid #d8c6ad;border-radius:12px;background:white;font-weight:700;color:var(--brown)}.tab.active{background:var(--brown);color:white}
+.card{background:white;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 3px 14px #45210d10}
+h2{font-size:19px;margin:0 0 12px;color:var(--brown)}h3{font-size:16px;margin:0 0 8px}
+label{display:block;font-weight:650;margin:12px 0 5px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #d9d0c5;border-radius:10px;background:#fff;font:inherit;color:var(--ink)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.rate{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid #eee5d9}.rate:last-child{border:0}.rate strong{color:var(--brown);white-space:nowrap}
+.item{display:grid;grid-template-columns:1fr 105px;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid #eee5d9}.item small{display:block;color:var(--muted)}
+.note{font-size:13px;color:var(--muted);line-height:1.5}.total{background:var(--cream);border:1px solid #f0dfc5;border-radius:12px;padding:13px;margin-top:12px}.totalrow{display:flex;justify-content:space-between;padding:4px 0}.grand{font-size:20px;font-weight:800;color:var(--green)}
+button.primary{width:100%;padding:14px;border:0;border-radius:12px;background:var(--green);color:white;font-size:17px;font-weight:750;margin-top:14px}
+.hidden{display:none}.branch{background:#fffaf2;padding:10px;border-radius:10px;margin:8px 0}.branch b{display:block}.badge{display:inline-block;background:#f8ead2;color:#7b3c19;border-radius:20px;padding:4px 9px;font-size:12px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+@media(max-width:430px){.grid{grid-template-columns:1fr}.item{grid-template-columns:1fr 90px}}
+</style>
+</head>
+<body>
+<header><div class="logo">🌾</div><h1>आई तुळजा भवानी फ्लोअर मिल</h1><p>दळण सेवा • घरपोच सुविधा</p><p class="badge">नाशिकमधील तीन गिरण्या</p></header>
+<main class="wrap">
+<div class="tabs">
+<button class="tab active" id="tabGrind" onclick="showTab('grind')">दळण सेवा</button>
+<button class="tab" id="tabProducts" onclick="showTab('products')">तयार उत्पादने</button>
+</div>
+<section id="grind">
+<div class="card">
+<h2>दळणाचे दर</h2>
+<div id="rates"></div>
+<p class="note">वरील दर प्रति किलो दळणाचे आहेत. तयार उत्पादनांचे विक्री दर यापेक्षा वेगळे असतील.</p>
+</div>
+<div class="card">
+<h2>दळणाची ऑर्डर</h2>
+<label>धान्य कुठून घ्यायचे?</label>
+<select id="source" onchange="updateTotal()">
+<option value="kirana">समोरच्या किराणा दुकानातून धान्य घेऊन दळून द्यायचे</option>
+<option value="own">माझे स्वतःचे धान्य घरून घेऊन दळून परत द्यायचे</option>
+</select>
+<div id="items"></div>
+<div class="total">
+<div class="totalrow"><span>दळण शुल्क</span><b id="milling">₹0</b></div>
+<div class="totalrow"><span>घरपोच शुल्क (५ किमीपर्यंत)</span><b id="deliveryFee">₹25</b></div>
+<div class="totalrow grand"><span>एकूण अंदाजे</span><span id="grand">₹25</span></div>
+<p class="note">५ किमीपेक्षा जास्त अंतरासाठी डिलिव्हरी शुल्क गिरणीकडून निश्चित केले जाईल. किराणा दुकानातील धान्याची किंमत या एकूणात समाविष्ट नाही.</p>
+</div>
+</div>
+<div class="card">
+<h2>ग्राहकाची माहिती</h2>
+<label>नाव</label><input id="name" placeholder="तुमचे पूर्ण नाव">
+<label>मोबाईल नंबर</label><input id="phone" type="tel" inputmode="numeric" placeholder="10 अंकी मोबाईल नंबर">
+<label>पूर्ण पत्ता</label><textarea id="address" rows="2" placeholder="घर क्रमांक, परिसर, नाशिक"></textarea>
+<div class="grid">
+<div><label>डिलिव्हरी अंतर</label><select id="distance" onchange="updateTotal()"><option value="near">५ किमीपर्यंत</option><option value="far">५ किमीपेक्षा जास्त</option></select></div>
+<div><label>पेमेंट पद्धत</label><select id="payment"><option>Cash</option><option>UPI</option></select></div>
+</div>
+<label>गिरणी निवडा</label>
+<select id="branch">
+<option value="9011376360">आई तुळजा भवानी फ्लोअर मिल — F2 फाल्गुन सेक्टर, शॉप नं. 40, कालिका चौक–महाराणा प्रताप चौक, जुने CIDCO</option>
+<option value="9168790573">लक्ष्मी फ्लोअर मिल — हनुमान चौक, वैभव सुपर शॉपसमोर, सावता नगर, CIDCO</option>
+<option value="9665447137">कुलस्वामी फ्लोअर मिल — सोना अपार्टमेंटजवळ, मॉडर्न स्कूलजवळ, भुजबळ फार्म, जुने CIDCO</option>
+</select>
+<button class="primary" onclick="sendOrder()">ऑर्डरची माहिती WhatsApp वर पाठवा</button>
+<p class="note">WhatsApp उघडल्यानंतर ऑर्डर तपासून स्वतः Send करा. ही आवृत्ती ऑर्डर डेटाबेसमध्ये साठवत नाही.</p>
+</div>
+</section>
+<section id="products" class="hidden">
+<div class="card">
+<h2>तयार उत्पादने</h2>
+<p>आमच्याकडे तयार उत्पादने उपलब्ध आहेत.</p>
+<div class="branch"><b>गहू पीठ • बाजरी पीठ • ज्वारी पीठ</b><span class="note">विक्री दर लवकरच अपडेट केले जातील.</span></div>
+<div class="branch"><b>डाळी • तांदूळ • रवा • मका • नागली</b><span class="note">विक्री दर लवकरच अपडेट केले जातील.</span></div>
+<div class="branch"><b>मिरची-मसाले • हळद • कोल्हापुरी मसाला • शेवया</b><span class="note">विक्री दर लवकरच अपडेट केले जातील.</span></div>
+<p class="note">तयार उत्पादनांचे दर मिळाल्यावर या विभागात किंमत व ऑर्डरची सोय जोडता येईल. सध्या अंदाजे दर दाखवलेले नाहीत.</p>
+</div>
+</section>
+<footer>आई तुळजा भवानी फ्लोअर मिल • नाशिक</footer>
+</main>
+<script>
+const products=[
+['गहू, बाजरी, ज्वारी',6],['सर्व डाळी, रवा, तांदूळ',8],['मका, नागली',20],
+['मिरची, मसाला',60],['हळद, कोल्हापुरी मसाला',90],
+['ओल्या डाळी व ओले गहू',25],['मशीन शेवई',35],['खारीक, खोबरे',30]
+];
+const qty=Array(products.length).fill(0);
+document.getElementById('rates').innerHTML=products.map(p=>`<div class="rate"><span>${p[0]}</span><strong>₹${p[1]} / किलो</strong></div>`).join('');
+document.getElementById('items').innerHTML=products.map((p,i)=>`<div class="item"><div><b>${p[0]}</b><small>दळण ₹${p[1]} प्रति किलो</small></div><input aria-label="${p[0]} किलो" type="number" min="0" step="0.5" placeholder="किलो" onchange="setQty(${i},this.value)"></div>`).join('');
+function setQty(i,v){qty[i]=Math.max(0,Number(v)||0);updateTotal()}
+function updateTotal(){
+ let milling=products.reduce((s,p,i)=>s+p[1]*qty[i],0);
+ let fee=document.getElementById('distance').value==='near'?25:0;
+ document.getElementById('milling').textContent='₹'+milling.toFixed(2);
+ document.getElementById('deliveryFee').textContent=fee?'₹25':'गिरणीकडून निश्चित';
+ document.getElementById('grand').textContent='₹'+(milling+fee).toFixed(2)+(fee?'':' + डिलिव्हरी');
+}
+function showTab(t){
+ document.getElementById('grind').classList.toggle('hidden',t!=='grind');
+ document.getElementById('products').classList.toggle('hidden',t!=='products');
+ document.getElementById('tabGrind').classList.toggle('active',t==='grind');
+ document.getElementById('tabProducts').classList.toggle('active',t==='products');
+}
+function sendOrder(){
+ const name=document.getElementById('name').value.trim(), phone=document.getElementById('phone').value.trim(), address=document.getElementById('address').value.trim();
+ if(!name||!phone||!address){alert('कृपया नाव, मोबाईल नंबर आणि पूर्ण पत्ता भरा.');return}
+ if(!/^[0-9]{10}$/.test(phone)){alert('कृपया १० अंकी मोबाईल नंबर भरा.');return}
+ const lines=products.map((p,i)=>qty[i]>0?`${p[0]}: ${qty[i]} किलो × ₹${p[1]} = ₹${(qty[i]*p[1]).toFixed(2)}`:null).filter(Boolean);
+ if(!lines.length){alert('कृपया किमान एक दळणाचा प्रकार आणि किलो निवडा.');return}
+ const distance=document.getElementById('distance').value;
+ const fee=distance==='near'?25:0, mill=products.reduce((s,p,i)=>s+p[1]*qty[i],0);
+ const source=document.getElementById('source').selectedOptions[0].text;
+ const msg=`नमस्कार, मला दळणाची ऑर्डर द्यायची आहे.%0Aनाव: ${encodeURIComponent(name)}%0Aमोबाईल: ${encodeURIComponent(phone)}%0Aपत्ता: ${encodeURIComponent(address)}%0Aधान्य: ${encodeURIComponent(source)}%0Aऑर्डर:%0A${encodeURIComponent(lines.join('\n'))}%0Aदळण शुल्क: ₹${mill.toFixed(2)}%0Aडिलिव्हरी: ${distance==='near'?'५ किमीपर्यंत ₹25':'५ किमीपेक्षा जास्त — शुल्क निश्चित करावे'}%0Aपेमेंट: ${encodeURIComponent(document.getElementById('payment').value)}%0Aएकूण (किराणा धान्याची किंमत वगळून): ₹${(mill+fee).toFixed(2)}`;
+ const number=document.getElementById('branch').value;
+ window.location.href=`https://wa.me/91${number}?text=${msg}`;
+}
+updateTotal();
+</script>
+</body></html>
